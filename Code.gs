@@ -9,7 +9,7 @@ var mlab = {
 
 
 function init_project(m) {
-  console.log("init_project:%s",m)
+//  console.log("init_project:%s",m)
   mlab.api_key = m.api_key
   mlab.database = m.database
   mlab.collection = m.collection
@@ -19,8 +19,8 @@ function init_project(m) {
 var mlab_api = {
   list_databases_f:function(){return API_BASE + "/databases?apiKey=" + mlab.api_key},
   list_collections_f:function(){return API_BASE + "/databases/" + mlab.database + "/collections?apiKey=" + mlab.api_key},
-  list_documents_f:function(){return API_BASE + "/databases/" + mlab.database + "/collections/" + mlab.collection + "?apiKey=" + mlab.api_key},
-  insert_documents_f:function(){return API_BASE + "/databases/" + mlab.database + "/collections/" + mlab.collection + "?apiKey=" + mlab.api_key},
+  list_documents_f:function(collection){return API_BASE + "/databases/" + mlab.database + "/collections/" + collection + "?apiKey=" + mlab.api_key},
+  insert_documents_f:function(collection){return API_BASE + "/databases/" + mlab.database + "/collections/" + collection + "?apiKey=" + mlab.api_key},
 }
 
 
@@ -29,8 +29,8 @@ function check_init() {
 }
 
 
-function list_documents() {
-  var api_path = mlab_api.list_documents_f()
+function list_documents(collection) {
+  var api_path = mlab_api.list_documents_f(collection)
   var response = redditlib.httpretry(api_path) 
   var text = response.getContentText()  
   var json = JSON.parse(text)  
@@ -40,8 +40,8 @@ function list_documents() {
   return json
 }
 
-function insert_documents(documents) {
-  var api_path = mlab_api.insert_documents_f()
+function insert_documents(collection, documents) {
+  var api_path = mlab_api.insert_documents_f(collection)
   var options = {
     "payload":JSON.stringify(documents),
     "type":"post",
