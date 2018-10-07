@@ -2,8 +2,8 @@ var API_BASE = "https://api.mlab.com/api/1"
 
 
 var mlab = {
-  api_key:"",
-  database:""
+  api_key:undefined,
+  database:undefined
 }
 
 
@@ -22,7 +22,9 @@ var mlab_api = {
 
 
 function check_init() {
-  
+  if( (mlab.api_key == undefined) || (mlab.database == undefined) ) {
+    console.log("check_init() failed, call init_project()") 
+  }
 }
 
 
