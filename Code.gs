@@ -3,16 +3,13 @@ var API_BASE = "https://api.mlab.com/api/1"
 
 var mlab = {
   api_key:"",
-  database:"",
-  collection:""
+  database:""
 }
 
 
 function init_project(m) {
-//  console.log("init_project:%s",m)
   mlab.api_key = m.api_key
   mlab.database = m.database
-  mlab.collection = m.collection
 }
 
 
