@@ -39,6 +39,7 @@ function list_documents(collection) {
   return json
 }
 
+
 function insert_documents(collection, documents) {
   var api_path = mlab_api.insert_documents_f(collection)
   var options = {
@@ -50,11 +51,9 @@ function insert_documents(collection, documents) {
   var text = response.getContentText()  
   var json = JSON.parse(text)  
   
-  if( json.n ) {  
-    console.log("%d docs inserted", json.n)
-    return json.n
+  if(json._id.$oid) {
+    return true
   } else {
-    console.log("doc inserted:%s", json)
-    return json
+    return false
   }
 }
