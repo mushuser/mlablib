@@ -17,6 +17,7 @@ var mlab_api = {
   list_databases_f:function(){return API_BASE + "/databases?apiKey=" + mlab.api_key},
   list_collections_f:function(){return API_BASE + "/databases/" + mlab.database + "/collections?apiKey=" + mlab.api_key},
   list_documents_f:function(collection){return API_BASE + "/databases/" + mlab.database + "/collections/" + collection + "?apiKey=" + mlab.api_key},
+  list_documents_q_f:function(collection, q){return API_BASE + "/databases/" + mlab.database + "/collections/" + collection + "?apiKey=" + mlab.api_key + "&c=true&q=" + encodeURIComponent("{\"name\":\"" + q + "\"}")},
   insert_documents_f:function(collection){return API_BASE + "/databases/" + mlab.database + "/collections/" + collection + "?apiKey=" + mlab.api_key},
 }
 
@@ -56,4 +57,13 @@ function insert_documents(collection, documents) {
   } else {
     return false
   }
+}
+
+function get_matched_count(collection, q) {
+  var api_path = mlab_api.list_documents_q_f(collection, q)
+  var response = redditlib.httpretry(api_path) 
+  var text = response.getContentText()  
+  var count = parseInt(text)
+  
+  return count
 }
